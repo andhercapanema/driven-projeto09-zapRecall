@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-function Footer() {
+function Footer({ flashcardIsFlipped }) {
     const options = [
         { text: "Não lembrei", color: "#ff3030" },
         { text: "Quase não lembrei", color: "#ff922e" },
@@ -11,8 +11,8 @@ function Footer() {
     return (
         <StyledFooter>
             <FooterOptions>
-                {options.map((option) => (
-                    <li>
+                {options.map((option, index) => (
+                    <li key={index}>
                         <FooterButton color={option.color}>
                             {option.text}
                         </FooterButton>
@@ -56,10 +56,11 @@ const FooterButton = styled.button`
     justify-content: center;
     align-items: center;
     color: #fff;
-
     background-color: ${(props) => props.color};
     border-radius: 5px;
     border: none;
+    /* cursor: ${()}; */
+    cursor: pointer;
 `;
 
 const FooterText = styled.h3`

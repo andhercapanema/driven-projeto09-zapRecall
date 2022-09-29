@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import Flashcard from "./Flashcard";
 
 const decks = [
     {
@@ -42,15 +43,19 @@ const decks = [
 ];
 
 const chosenDeck = decks.filter((deck) => deck.name === "React")[0];
+console.log(chosenDeck.questions);
 
-function Deck() {
+function Deck({ flashcardIsFlipped, setFlashcardIsFlipped }) {
     return (
         <StyledDeck>
             {chosenDeck.questions.map((question, index) => (
-                <Flashcard>
-                    <FlashcardText>Pergunta {index + 1}</FlashcardText>
-                    <ion-icon name="play-outline"></ion-icon>
-                </Flashcard>
+                <Flashcard
+                    key={index}
+                    question={question}
+                    index={index}
+                    flashcardIsFlipped={flashcardIsFlipped}
+                    setFlashcardIsFlipped={setFlashcardIsFlipped}
+                />
             ))}
         </StyledDeck>
     );
@@ -61,26 +66,4 @@ export default Deck;
 const StyledDeck = styled.ul`
     margin-top: 50px;
     margin-bottom: 110px;
-`;
-
-const Flashcard = styled.li`
-    background-color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 25px;
-    padding: 0 15px;
-    height: 65px;
-    width: 300px;
-    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
-    border-radius: 5px;
-
-    ion-icon {
-        font-size: 30px;
-    }
-`;
-
-const FlashcardText = styled.h2`
-    font-weight: 700;
-    color: #333333;
 `;
