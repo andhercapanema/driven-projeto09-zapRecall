@@ -1,6 +1,6 @@
 import React from "react";
 import logoImg from "../../assets/img/logo.svg";
-import * as S from "./styled";
+import * as S from "./style";
 
 const LoginPage = ({ setRecallHasStarted }) => {
     return (
