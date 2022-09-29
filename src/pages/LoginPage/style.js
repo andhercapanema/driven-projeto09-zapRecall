@@ -36,3 +36,34 @@ export const LoginButton = styled.button`
     color: #d70900;
     font-family: "Recursive", sans-serif;
 `;
+
+export const LoginSelectWrapper = styled.div`
+    width: 246px;
+    height: 43px;
+    background: #fff;
+    border-radius: 5px;
+
+    margin-bottom: 18px;
+
+    position: relative;
+
+    ion-icon {
+        position: absolute;
+        right: 13.5px;
+        top: 13.5px;
+        color: #adadad;
+    }
+`;
+
+export const LoginSelectDeck = styled.select`
+    width: 246px;
+    height: 43px;
+    background: transparent;
+    border-radius: 5px;
+    border: none;
+    padding: 0 9px;
+    -webkit-appearance: none;
+    color: ${({ chosenDeck }) =>
+        chosenDeck === "default" ? "#adadad" : "auto"};
+    cursor: pointer;
+`;

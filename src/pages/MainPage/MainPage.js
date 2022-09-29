@@ -4,7 +4,7 @@ import Deck from "../../components/Deck";
 import Header from "../../components/Header";
 import * as S from "./style";
 
-const MainPage = () => {
+const MainPage = ({ chosenDeck }) => {
     const [answerdQuestions, setAnswerdQuestions] = useState([]);
     const COLORS = {
         incorrect: "#ff3030",
@@ -19,6 +19,7 @@ const MainPage = () => {
                 answerdQuestions={answerdQuestions}
                 setAnswerdQuestions={setAnswerdQuestions}
                 COLORS={COLORS}
+                chosenDeck={chosenDeck}
             />
             <Footer answerdQuestions={answerdQuestions} COLORS={COLORS} />
         </S.StyledMainPage>
