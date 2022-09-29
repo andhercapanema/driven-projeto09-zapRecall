@@ -1,15 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import logoImg from "../assets/img/logo.png";
+import logoImg from "../assets/img/logo.svg";
 
-function Header() {
+const Header = () => {
     return (
         <StyledHeader>
             <HeaderImg src={logoImg} alt="Logo do ZapRecall" />
             <HeaderText>ZapRecall</HeaderText>
         </StyledHeader>
     );
-}
+};
 
 export default Header;
 

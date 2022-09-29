@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Footer from "./Footer";
-import Deck from "./Deck";
-import Header from "./Header";
+import Footer from "../components/Footer";
+import Deck from "../components/Deck";
+import Header from "../components/Header";
 import styled from "styled-components";
 
 const DECKS = [
@@ -52,7 +52,7 @@ const COLORS = {
     correct: "#2fbe34",
 };
 
-function MainPage() {
+const MainPage = () => {
     const [flashcardsStatuses, setFlashcardsStatuses] = useState(
         chosenDeck.questions.map(() => "initial")
     );
@@ -73,7 +73,7 @@ function MainPage() {
             />
         </StyledPage>
     );
-}
+};
 
 export default MainPage;
 

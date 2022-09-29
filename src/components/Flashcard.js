@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import arrow from "../assets/img/setinha.svg";
 
-function Flashcard({
+const Flashcard = ({
     index,
     question: { question, answer },
     COLORS,
     flashcardsStatuses,
     setFlashcardsStatuses,
-}) {
+}) => {
     const [flashcardText, setFlashcardText] = useState("");
 
     let thisFlashcardStatus = flashcardsStatuses[index];
@@ -42,7 +42,7 @@ function Flashcard({
             oneFlashCardIsFlipped={oneFlashCardIsFlipped}
             COLORS={COLORS}
         >
-            <FlashcardText>
+            <FlashcardText status={thisFlashcardStatus}>
                 {thisFlashcardStatus === "question" ||
                 thisFlashcardStatus === "answer"
                     ? flashcardText
@@ -64,7 +64,7 @@ function Flashcard({
             />
         </StyledFlashcard>
     );
-}
+};
 
 export default Flashcard;
 
@@ -110,6 +110,16 @@ const StyledFlashcard = styled.li`
 
 const FlashcardText = styled.h2`
     font-weight: 700;
+
+    ${({ status }) => {
+        if (status === "question" || status === "answer") {
+            return css`
+                font-weight: 400;
+                font-size: 18px;
+                line-height: 22px;
+            `;
+        }
+    }}
 `;
 
 const FlashcardArrow = styled.img`
