@@ -1,25 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-function Footer({ flashcardIsFlipped }) {
+function Footer({ flashcardsStatuses, setFlashcardsStatuses, COLORS }) {
     const options = [
-        { text: "Não lembrei", color: "#ff3030" },
-        { text: "Quase não lembrei", color: "#ff922e" },
-        { text: "Zap!", color: "#2fbe34" },
+        { text: "Não lembrei", color: COLORS.incorrect },
+        { text: "Quase não lembrei", color: COLORS.correctWithEfford },
+        { text: "Zap!", color: COLORS.correct },
     ];
+
+    const oneFlashCardIsInAnswer =
+        flashcardsStatuses.filter((status) => status === "answer").length !== 0;
+
+    const [answerdQuestions, setAnswerdQuestions] = useState(0);
+
+    function answerFlashcard(answer) {
+        const indexQuestion = flashcardsStatuses.indexOf("answer");
+        const handleAnswer = {
+            "Não lembrei": "incorrect",
+            "Quase não lembrei": "correctWithEfford",
+            "Zap!": "correct",
+        };
+
+        flashcardsStatuses[indexQuestion] = handleAnswer[answer];
+
+        setFlashcardsStatuses([...flashcardsStatuses]);
+
+        setAnswerdQuestions((prev) => prev + 1);
+    }
 
     return (
         <StyledFooter>
             <FooterOptions>
                 {options.map((option, index) => (
                     <li key={index}>
-                        <FooterButton color={option.color}>
+                        <FooterButton
+                            color={option.color}
+                            oneFlashCardIsInAnswer={oneFlashCardIsInAnswer}
+                            onClick={
+                                oneFlashCardIsInAnswer
+                                    ? () => answerFlashcard(option.text)
+                                    : () => ""
+                            }
+                        >
                             {option.text}
                         </FooterButton>
                     </li>
                 ))}
             </FooterOptions>
-            <FooterText>0/8 CONCLUÍDOS</FooterText>
+            <FooterText>{answerdQuestions}/8 CONCLUÍDOS</FooterText>
         </StyledFooter>
     );
 }
@@ -59,8 +87,7 @@ const FooterButton = styled.button`
     background-color: ${(props) => props.color};
     border-radius: 5px;
     border: none;
-    /* cursor: ${()}; */
-    cursor: pointer;
+    cursor: ${(props) => (props.oneFlashCardIsInAnswer ? "pointer" : "auto")};
 `;
 
 const FooterText = styled.h3`

@@ -5,34 +5,61 @@ import arrow from "../assets/img/setinha.svg";
 function Flashcard({
     index,
     question: { question, answer },
-    flashcardIsFlipped,
-    setFlashcardIsFlipped,
+    COLORS,
+    flashcardsStatuses,
+    setFlashcardsStatuses,
 }) {
-    const [flashcardText, setFlashcardText] = useState(`Pergunta ${index + 1}`);
-    const [flashcardStatus, setFlashcardStatus] = useState("initial");
+    const [flashcardText, setFlashcardText] = useState("");
+
+    let thisFlashcardStatus = flashcardsStatuses[index];
+    const oneFlashCardIsFlipped =
+        flashcardsStatuses.filter(
+            (status) => status === "answer" || status === "question"
+        ).length !== 0;
+
+    const flashCardIonIcon = {
+        initial: "play-outline",
+        incorrect: "close-circle",
+        correctWithEfford: "help-circle",
+        correct: "checkmark-circle",
+    };
 
     function showQuestion() {
         setFlashcardText(question);
-        setFlashcardStatus("question");
-        setFlashcardIsFlipped(true);
+        flashcardsStatuses[index] = "question";
+        setFlashcardsStatuses([...flashcardsStatuses]);
     }
 
     function showAnswer() {
         setFlashcardText(answer);
-        setFlashcardStatus("answer");
+        flashcardsStatuses[index] = "answer";
+        setFlashcardsStatuses([...flashcardsStatuses]);
     }
 
     return (
-        <StyledFlashcard status={flashcardStatus}>
-            <FlashcardText>{flashcardText}</FlashcardText>
+        <StyledFlashcard
+            status={thisFlashcardStatus}
+            oneFlashCardIsFlipped={oneFlashCardIsFlipped}
+            COLORS={COLORS}
+        >
+            <FlashcardText>
+                {thisFlashcardStatus === "question" ||
+                thisFlashcardStatus === "answer"
+                    ? flashcardText
+                    : `Pergunta ${index + 1}`}
+            </FlashcardText>
             <ion-icon
-                name="play-outline"
-                onClick={flashcardIsFlipped ? () => "" : showQuestion}
+                name={flashCardIonIcon[thisFlashcardStatus]}
+                onClick={
+                    oneFlashCardIsFlipped || thisFlashcardStatus !== "initial"
+                        ? () => ""
+                        : showQuestion
+                }
             ></ion-icon>
             <FlashcardArrow
                 src={arrow}
                 alt="Clique para ver resposta"
-                status={flashcardStatus}
+                status={thisFlashcardStatus}
                 onClick={showAnswer}
             />
         </StyledFlashcard>
@@ -55,19 +82,14 @@ const StyledFlashcard = styled.li`
 
     ion-icon {
         font-size: 30px;
-        cursor: pointer;
-
-        ${(props) => {
-            if (props.status === "question" || props.status === "answer") {
-                return css`
-                    display: none;
-                `;
-            }
-        }}
+        cursor: ${({ oneFlashCardIsFlipped, status }) =>
+            oneFlashCardIsFlipped || status !== "initial" ? "auto" : "pointer"};
+        display: ${({ status }) =>
+            status === "question" || status === "answer" ? "none" : "auto"};
     }
 
-    ${(props) => {
-        if (props.status === "question" || props.status === "answer") {
+    ${({ status }) => {
+        if (status === "question" || status === "answer") {
             return css`
                 background: #ffffd5;
                 height: 130px;
@@ -76,11 +98,18 @@ const StyledFlashcard = styled.li`
             `;
         }
     }}
+
+    color: ${({ COLORS, status }) => COLORS[status] || "#333"};
+    text-decoration: ${({ status }) =>
+        status === "incorrect" ||
+        status === "correctWithEfford" ||
+        status === "correct"
+            ? "line-through"
+            : "auto"};
 `;
 
 const FlashcardText = styled.h2`
     font-weight: 700;
-    color: #333333;
 `;
 
 const FlashcardArrow = styled.img`
