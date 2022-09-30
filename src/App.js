@@ -83,18 +83,24 @@ const DECKS = [
 const App = () => {
     const [recallHasStarted, setRecallHasStarted] = useState(false);
     const [chosenDeck, setChosenDeck] = useState("default");
+    const [correctAnswersGoal, setCorrectAnswersGoal] = useState(0);
 
     return (
         <>
             <GlobalStyle />
             {recallHasStarted ? (
-                <MainPage chosenDeck={chosenDeck} />
+                <MainPage
+                    chosenDeck={chosenDeck}
+                    correctAnswersGoal={correctAnswersGoal}
+                />
             ) : (
                 <LoginPage
                     setRecallHasStarted={setRecallHasStarted}
                     DECKS={DECKS}
                     chosenDeck={chosenDeck}
                     setChosenDeck={setChosenDeck}
+                    correctAnswersGoal={correctAnswersGoal}
+                    setCorrectAnswersGoal={setCorrectAnswersGoal}
                 />
             )}
         </>

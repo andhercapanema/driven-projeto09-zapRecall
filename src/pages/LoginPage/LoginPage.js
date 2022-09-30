@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logoImg from "../../assets/img/logo.svg";
 import * as S from "./style";
 
@@ -7,8 +7,30 @@ const LoginPage = ({
     DECKS,
     chosenDeck,
     setChosenDeck,
+    correctAnswersGoal,
+    setCorrectAnswersGoal,
 }) => {
-    console.log(chosenDeck);
+    const readyToStart =
+        chosenDeck !== "default" &&
+        correctAnswersGoal >= 1 &&
+        correctAnswersGoal <= 8;
+
+    /* ------------------------------- */
+    // start pressing enter [fonte: https://stackoverflow.com/questions/33211672/how-to-submit-a-form-using-enter-key-in-react-js]
+
+    useEffect(() => {
+        const listener = (event) => {
+            if (event.code === "Enter" || event.code === "NumpadEnter") {
+                readyToStart && setRecallHasStarted(true);
+            }
+        };
+        document.addEventListener("keydown", listener);
+        return () => {
+            document.removeEventListener("keydown", listener);
+        };
+    });
+
+    /* ------------------------------- */
 
     return (
         <S.StyledLoginPage>
@@ -39,7 +61,21 @@ const LoginPage = ({
                 </S.LoginSelectDeck>
                 <ion-icon name="chevron-down-outline"></ion-icon>
             </S.LoginSelectWrapper>
-            <S.LoginButton onClick={() => setRecallHasStarted(true)}>
+            <S.LoginGoalInput
+                type="number"
+                name="correct-goal"
+                min="1"
+                max="8"
+                placeholder="Digite sua meta de zaps (1 - 8)"
+                onChange={(e) => setCorrectAnswersGoal(e.target.value)}
+                correctAnswersGoal={correctAnswersGoal}
+            />
+            <S.LoginButton
+                onClick={
+                    readyToStart ? () => setRecallHasStarted(true) : () => ""
+                }
+                readyToStart={readyToStart}
+            >
                 Iniciar Recall!
             </S.LoginButton>
         </S.StyledLoginPage>
