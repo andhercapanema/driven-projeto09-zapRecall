@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { COLORS } from "../../styles/colors";
 
 export const StyledFooter = styled.footer`
     width: 100%;
@@ -27,6 +28,6 @@ export const AnswersHistory = styled.ul`
 export const AnswerResult = styled.li`
     ion-icon {
         font-size: 27px;
-        color: ${({ COLORS, result }) => COLORS[result]};
+        color: ${({ result }) => COLORS[result]};
     }
 `;

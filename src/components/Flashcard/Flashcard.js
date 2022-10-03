@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import arrow from "../../assets/img/setinha.svg";
 import * as S from "./style";
+import { COLORS } from "../../styles/colors";
 
 const Flashcard = ({
     index,
     question: { question, answer },
     answerdQuestions,
     setAnswerdQuestions,
-    COLORS,
     oneFlashCardIsFlipped,
     thisFlashcardStatus,
     updateFlashcardsStatuses,
@@ -53,7 +53,6 @@ const Flashcard = ({
         <S.StyledFlashcard
             status={thisFlashcardStatus}
             oneFlashCardIsFlipped={oneFlashCardIsFlipped}
-            COLORS={COLORS}
         >
             <S.FlashcardText status={thisFlashcardStatus}>
                 {thisFlashcardStatus === "question" ||

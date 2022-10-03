@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { COLORS } from "../../styles/colors";
 
 export const StyledFlashcard = styled.li`
     background-color: #fff;
@@ -31,7 +32,7 @@ export const StyledFlashcard = styled.li`
         }
     }}
 
-    color: ${({ COLORS, status }) => COLORS[status] || "#333"};
+    color: ${({ status }) => COLORS[status] || "#333"};
     text-decoration: ${({ status }) =>
         status === "incorrect" ||
         status === "correctWithEfford" ||

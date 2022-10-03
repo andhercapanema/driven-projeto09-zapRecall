@@ -1,19 +1,31 @@
 import React, { useEffect } from "react";
 import logoImg from "../../assets/img/logo.svg";
 import * as S from "./style";
+import { DECKS } from "../../services/decks";
 
 const LoginPage = ({
     setRecallHasStarted,
-    DECKS,
-    chosenDeck,
-    setChosenDeck,
-    correctAnswersGoal,
-    setCorrectAnswersGoal,
+    zapRecallConfig,
+    setZapRecallConfig,
 }) => {
     const readyToStart =
-        chosenDeck !== "default" &&
-        correctAnswersGoal >= 1 &&
-        correctAnswersGoal <= 8;
+        zapRecallConfig.chosenDeck !== "default" &&
+        zapRecallConfig.correctAnswersGoal >= 1 &&
+        zapRecallConfig.correctAnswersGoal <= 8;
+
+    const selectDeck = (selectedDeck) => {
+        setZapRecallConfig({
+            chosenDeck: DECKS.filter((deck) => deck.name === selectedDeck)[0],
+            correctAnswersGoal: zapRecallConfig.correctAnswersGoal,
+        });
+    };
+
+    const selectGoal = (selectedGoal) => {
+        setZapRecallConfig({
+            chosenDeck: zapRecallConfig.chosenDeck,
+            correctAnswersGoal: selectedGoal,
+        });
+    };
 
     /* ------------------------------- */
     // start pressing enter [fonte: https://stackoverflow.com/questions/33211672/how-to-submit-a-form-using-enter-key-in-react-js]
@@ -40,15 +52,9 @@ const LoginPage = ({
                 <S.LoginSelectDeck
                     name="decks"
                     required
-                    onChange={(e) =>
-                        setChosenDeck(
-                            DECKS.filter(
-                                (deck) => deck.name === e.target.value
-                            )[0]
-                        )
-                    }
+                    onChange={(e) => selectDeck(e.target.value)}
                     defaultValue="default"
-                    chosenDeck={chosenDeck}
+                    chosenDeck={zapRecallConfig.chosenDeck}
                 >
                     <option value="default" disabled hidden>
                         Escolha seu deck
@@ -67,8 +73,8 @@ const LoginPage = ({
                 min="1"
                 max="8"
                 placeholder="Digite sua meta de zaps (1 - 8)"
-                onChange={(e) => setCorrectAnswersGoal(e.target.value)}
-                correctAnswersGoal={correctAnswersGoal}
+                onChange={(e) => selectGoal(e.target.value)}
+                correctAnswersGoal={zapRecallConfig.correctAnswersGoal}
             />
             <S.LoginButton
                 onClick={

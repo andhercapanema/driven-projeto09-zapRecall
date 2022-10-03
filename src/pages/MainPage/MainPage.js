@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import Footer from "../../components/Footer/Footer";
-import Deck from "../../components/Deck";
-import Header from "../../components/Header";
+import Deck from "../../components/Deck/Deck";
+import Header from "../../components/Header/Header";
 import * as S from "./style";
 import Result from "../../components/Result/Result";
 
-const MainPage = ({ chosenDeck, correctAnswersGoal }) => {
+const MainPage = ({ zapRecallConfig }) => {
     const [answerdQuestions, setAnswerdQuestions] = useState([]);
-    const COLORS = {
-        incorrect: "#ff3030",
-        correctWithEfford: "#ff922e",
-        correct: "#2fbe34",
-    };
+
+    const [flashcardsStatuses, setFlashcardsStatuses] = useState(
+        zapRecallConfig.chosenDeck.questions.map((item, index) => {
+            return { status: "initial", sequence: 0 };
+        })
+    );
+
     const recallIsOver = answerdQuestions.length === 8;
 
     return (
@@ -20,14 +22,15 @@ const MainPage = ({ chosenDeck, correctAnswersGoal }) => {
             <Deck
                 answerdQuestions={answerdQuestions}
                 setAnswerdQuestions={setAnswerdQuestions}
-                COLORS={COLORS}
-                chosenDeck={chosenDeck}
+                flashcardsStatuses={flashcardsStatuses}
+                setFlashcardsStatuses={setFlashcardsStatuses}
+                chosenDeck={zapRecallConfig.chosenDeck}
             />
-            <Footer answerdQuestions={answerdQuestions} COLORS={COLORS} />
+            <Footer answerdQuestions={answerdQuestions} />
             {recallIsOver && (
                 <Result
                     answerdQuestions={answerdQuestions}
-                    correctAnswersGoal={correctAnswersGoal}
+                    correctAnswersGoal={zapRecallConfig.correctAnswersGoal}
                 />
             )}
         </S.StyledMainPage>

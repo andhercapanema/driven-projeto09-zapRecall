@@ -1,7 +1,7 @@
 import React from "react";
 import * as S from "./style";
 
-function Footer({ answerdQuestions, COLORS }) {
+function Footer({ answerdQuestions }) {
     const handleIonIcon = {
         incorrect: "close-circle",
         correctWithEfford: "help-circle",
@@ -13,7 +13,7 @@ function Footer({ answerdQuestions, COLORS }) {
             <S.FooterText>{answerdQuestions.length}/8 CONCLUÍDOS</S.FooterText>
             <S.AnswersHistory>
                 {answerdQuestions.map((result, index) => (
-                    <S.AnswerResult key={index} COLORS={COLORS} result={result}>
+                    <S.AnswerResult key={index} result={result}>
                         <ion-icon name={handleIonIcon[result]}></ion-icon>
                     </S.AnswerResult>
                 ))}

@@ -138,6 +138,8 @@ const GlobalStyle = createGlobalStyle`
 
     .root {
         font-family: 'Recursive', sans-serif;
+        background: #fb6b6b;
+        min-height: 100vh;
     }
 `;
 
